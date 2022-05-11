@@ -117,25 +117,25 @@ mat-slide-toggle {
   pointer-events: all;
   padding: 20px;
 }
-form {
+/* form {
   padding: 25px;
-}
-form label {
+} */
+.form-group label {
   float: left;
   color: #949494;
 }
-form a {
+.form-group a {
   float: right;
   top:20%;
   padding-left: 20px;
 }
-form input {
+.form-group input {
   box-shadow: none;
   background: 0 0;
   border: 0;
   border-bottom: #676d75 solid 1px;
 }
-form input::placeholder {
+.form-group input::placeholder {
   color: #949494;
 }
 form .btn-one{
@@ -224,4 +224,16 @@ h6 {
   background: -ms-linear-gradient(top,#3c95cd 10%,#2989d8 30%,#207cca 51%,#285588 100%);
    background: linear-gradient(to bottom,#3c95cd 10%,#2989d8 30%,#207cca 51%,#285588 100%);
    cursor: pointer;
+}
+
+
+
+
+
+.form-group{
+  padding: 20px;
+}
+.form-group i{
+float: right;
+color:#207cca;
 }

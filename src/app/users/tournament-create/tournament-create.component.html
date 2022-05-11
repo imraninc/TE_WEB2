@@ -1,70 +1,362 @@
-<div id="container">
-    <div class="container">
-      <div class="row">
-        <div class="col-3">
-          <div class="card">
-            <div class="card-header card-header-danger">
-              <h1 class="card-title">CREATE TOURNAMENTS</h1>
-              <h3>Basic <a href="#" title="click to strat introduction guide"><mat-icon>info</mat-icon>Help</a></h3>
+<div class="main">
+  <form [formGroup]="newTournamentForm" (ngSubmit)="createTournaments()">
+    <div class="row">
+      <div class="large-3">
+        <div class="col_one">
+          <h1>CREATE TOURNAMENT</h1>
+          <h2>Basic
+            <a href="#">
+              <mat-icon>info</mat-icon>
+            </a>
+          </h2>
+          <div class="flex-item">
+            <label data-step="1" data-intro="Tournament Name" class="mandatory_field">Tournament Name</label>
+            <input type="text" formControlName="name">
+          </div>
+          <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+            <div *ngIf="f['name'].errors['required']">Tournamentname is required</div>
+            <div *ngIf="f['name'].errors['minlength']">Tournamentname must be at least 6 characters</div>
+            <div *ngIf="f['name'].errors['maxlength']">
+              Tournamentname must not exceed 20 characters
+            </div>
+          </div>
+
+          <div class="flex-item">
+            <label data-step="2" data-intro="Tournament Name" class="mandatory_field">Game</label>
+            <input type="text" placeholder="Search Games..." formControlName="game" (Change)="showGame()">
+           
+          </div>
+          <div *ngIf="submitted && f['game'].errors" class="invalid-feedback">
+            <div *ngIf="f['game'].errors['required']">Game is required</div>
+            <div *ngIf="f['game'].errors['minlength']">Game must be at least 6 characters</div>
+            <div *ngIf="f['game'].errors['maxlength']">
+              Game must not exceed 20 characters
+            </div>
+          </div>
+
+          <div class="flex-item">
+            <label data-step="3" data-intro="Tournament Name" class="mandatory_field">Start Date</label>
+            <input type="date" placeholder="MM-DD-YY" formControlName="startDate" >
+          </div>
+          <div *ngIf="submitted && f['startDate'].errors" class="invalid-feedback">
+            <div *ngIf="f['startDate'].errors['required']">Start Date is required</div>
+           </div>
+
+
+          <div class="flex-item">
+            <label data-step="4" data-intro="Tournament Name" class="mandatory_field">End Date</label>
+            <input type="date" placeholder="MM-DD-YYYY" formControlName="endDate">
+            <div *ngIf="submitted && f['endDate'].errors" class="invalid-feedback">
+              <div *ngIf="f['endDate'].errors['required']">End Date is required</div>
+             </div>
+
+            <div class="flex-item trnstyle-option" ng-mouseenter="tourType=true" ng-mouseleave="tourType=false"
+              ng-disabled="tournament.started">
+              <label class="non-floatfld mandatory_field" data-step="5"
+                data-intro="Select Tournament Style from the list">Tournament Style</label>
+              <div class="select-field">
+
+                <select name="tournamentType" id="tournamentType" formControlName="tournamentType">
+                  <option value="SINGLE_ELIMINATION" selected="selected">Single Elimination</option>
+                  <option value="DOUBLE_ELIMINATION">Double Elimination</option>
+                  <option value="ROUND_ROBIN">Round Robin</option>
+                  <option value="SWISS">Swiss</option>
+                </select>
+                <span class="dropdown-arrow"></span>
+                <div *ngIf="submitted && f['tournamentType'].errors" class="invalid-feedback">
+                  <div *ngIf="f['tournamentType'].errors['required']">Plaese select tournament type</div>
+                 </div>
               </div>
-              <div class="card body">
-                <form action="" method="post">
-                <div class="row" id="tournament">
-  
-                  <div class="col-12" id="tournament-name">
-                    <mat-form-field  class="example-full-width">
-                      <mat-label>Tournament Name</mat-label>
-                      <input matInput placeholder="Tournament Name*" type="text" formControlName="tournamentname">
-                      <mat-error></mat-error>
-                      </mat-form-field>
-                      </div>
-  
-                      <div class="col-12">
-                        <mat-label>Game*</mat-label><br>
-                      <mat-form-field  class="example-full-width">
-                        <input matInput placeholder="Search Games" type="text" formControlName="description">
-                        
-                        <mat-error></mat-error>
-                      </mat-form-field>
-                      </div>
-  
-                      <div class="col-12">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Start Date*</mat-label>
-                            <input matInput [matDatepicker]="picker" placeholder="MM-DD-YYYY">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                          </mat-form-field>
-                        </div>
-  
-                        <div class="col-12">
-                          <mat-form-field appearance="fill">
-                              <mat-label>End Date*</mat-label>
-                              <input matInput [matDatepicker]="picker" placeholder="MM-DD-YYYY">
-                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                              <mat-datepicker #picker ></mat-datepicker>
-                            </mat-form-field>
-                      </div>
-  
-                      <div class="col-12" id="tournament-style">
-                        <mat-label>Tournament style*</mat-label><br>
-                      <mat-form-field  class="example-full-width">
-                        <select name="" id="tournament-style" title="Single Elimination: Players that lose">
-                          <option>Single Elimination</option>
-                          <option>Double Elimination</option>
-                          <option>Round Robin</option>
-                          <option>Swiss</option>
-                          </select>
-                        </mat-form-field>
+            </div>
+          </div>
+          <br>
+          <div class="flex-img">
+            <label class="flex-label-one" data-step="8" data-intro="Upload 400px X 400px picture"
+              for="user_image">Tournament Picture</label>
+          </div>
+          <div class="row">
+            <div class="left-column large-6 medium-3 small-6 columns">
+              <div id="user_image" enctype="multipart/form-data">
+                <img alt="Choose a picture" src='assets/img/my-account-placeholder.png'  *ngIf="!upload1" title="Choose a picture"
+                width="150" height="150" id="my-account-profile-image" (click)="open1(mymodal1)" class="form-control">
+                <img alt="Choose a picture"  *ngIf="upload1" title="Choose a picture"
+                    width="150" height="150" id="my-account-profile-image" [src]="uploadimageSrc" (click)="open1(mymodal1)" class="form-control" >
+                <span class="mandatoryfld_lbl">
+                  <div *ngIf="submitted && f['imageKey'].errors" class="invalid-feedback">
+                    <div *ngIf="f['imageKey'].errors['required']">Image is required</div>
+                   </div>
+                </span>
+                <button type="button" class="removeOldImage msg_button bgradient-red" (click)="removeImage()" *ngIf="upload1" title="Remove Image">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+
+
+            <ng-template #mymodal1 let-modal>
+              <div class="popup-box">
+                <div class="container">
+                  <div class="heading">
+                    <div class="modal-heading">
+                      <h6>Upload Picture</h6>
+                      <a class="close-reveal-modal" title="Close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <div title="Close" class="closebtn ngdialog-close" style="padding-left: 40px;"></div>
+                      </a>
                     </div>
-  
-  
+                  </div>
+                  <div id="upload-demo" class="croppie-container" style="margin: 10px;
+                    border: dashed 1px #43464d;">
+                    <img src="../../../assets/img/user.png" style=" height: 50%;
+            width: 90%;
+            margin: 10px;" [src]="imageSrc" >
+                    <div class="cr-boundary" aria-dropeffect="none">
+            
+                      <div class="cr-viewport cr-vp-square" tabindex="0">
+                        <div class="slide-container">
+                          <input type="range" min="1" max="100" value="50" class="slider" id="myRange" aria-valuenow="100">
+                        </div>
+                        <div class="file">
+                          <input type="file" name="file" class="file"
+                            style="border: solid 1px #43464d; border-radius: 0px;"  formControlName="imageKey" (change)="onFileChange($event)">
+                          <input type="submit" class="done" value="Done" (click)="show()" (click)="modal.dismiss('Cross click')" >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                </form>
               </div>
-              
+            </ng-template>
+
+
+
+           
+
+
+
+
+            <div class="large-6 medium-6 small-6 columns">
+              <p class="help-text">Click here to upload picture.</p>
+            </div>
+          </div>
+
+          <div class="flex-row">
+            <div class="flex-item">
+              <div data-step="7" data-intro="Set location so you would be notified of any tournaments in your area.">
+                <label class="flex-label" data-step="7" data-intro="Tournament Description">Tournament
+                  Description</label>
+                <textarea name="description" placeholder="" maxlength="1200"
+                  ng-model="tournament.description" formControlName="description"></textarea>
+                  <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                    <div *ngIf="f['description'].errors['required']">Description is required</div>
+                   </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>  
+      </div>
+      <div class="large-4">
+        <div class="col_two">
+          <div class="toggle">
+            <h1></h1>
+            <h2>Advanced Features</h2>
+            <div class="men_toggle">
+              <mat-slide-toggle style="float:right;" (change)=" toogleTag()"></mat-slide-toggle>
+            
+            </div>
+          </div>
+          <div class="toggle-slide" *ngIf="showMe">
+            <div _ngcontent-kho-c228="" class="flex-items">
+              <label class="label-custom">Custom URL
+                <i class="icon-copy" (click)="cp.copy()" >
+                  <img src="../assets/img/icon_copy_url.png">
+                </i>
+              </label>
+              <div class="input-field">
+                <div class="input-group" ngxCopyPaste #cp="copy">
+                  <label class="input-group-label">Tournamentedition.com/tournament/</label>
+                  <input type="text" placeholder="" name="event_webUrl" id="event_webUrl"
+                    class="input-group-field ng-touched ng-pristine ng-invalid" formControlName="webURL">
+                </div>
+                <span class="mandatoryfld_lbl"></span>
+              </div>
+            </div>
+            <div _ngcontent-kho-c228="" class="flex-items">
+              <label class="label-custom">Mixer Channel
+                <i class="icon-copy"  (click)="cp1.copy()" >
+                  <img src="../assets/img/icon_copy_url.png">
+                </i>
+              </label>
+              <div class="input-field">
+                <div class="input-group" ngxCopyPaste #cp1="copy">
+                  <label class="input-group-label">www.mixer.com/</label>
+                  <input type="text" placeholder="Mixer Channel name" name="event_webUrl" id="event_webUrl"
+                    class="input-group-field ng-touched ng-pristine ng-invalid" formControlName="mixerStreamUr">
+                </div>
+                <span class="mandatoryfld_lbl"></span>
+              </div>
+            </div>
+            <div class="flex-items">
+              <label class="label-custom">Twitch Channel
+                <i class="icon-copy"  (click)="cp2.copy()">
+                  <img src="../assets/img/icon_copy_url.png">
+                </i>
+              </label>
+              <div class="input-field">
+                <div class="input-group" ngxCopyPaste #cp2="copy">
+                  <label class="input-group-label">www.twitch.tv/</label>
+                  <input type="text" placeholder="Twitch Channel name" id="event_webUrl"
+                    class="input-group-field ng-touched ng-pristine ng-invalid" formControlName="twitchStreamUr">
+                </div>
+                <span class="mandatoryfld_lbl"></span>
+              </div>
+            </div>
+            <div class="connectTwitter">
+              <label class="label-custom">Share With</label>
+              <a class="social_network_link connected" id="twitter" href="">
+                <i class="fab fa-twitter"></i><i ng-class="{'fa fa-check' : isTwitterConnected}"></i>
+              </a>
+            </div>
+            <div class="flex-items image-item" style="position: relative;">
+              <label class="flex-label">Twitter Message</label>
+              <textarea
+                placeholder="Coming up 'Player1' VS 'Player 2' At (insert event Twitter) In (enter hashtag). On (stream link) via @Te_App #TE"
+                id="twitterMessage" name="twitterMessage"
+                class="twitter_message ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" rows="4"
+                cols="150" formControlName="twitterMessage"></textarea>
+
+              <div ng-show="showTwitterHelp" class="help_pop small_shadow ng-hide" style="display: none; top: -200px;">
+                <p class="showTwitterHelp">
+                  With one press you can tweet out a custom message every time a new match is about to begin. The
+                  twitter names of the players/teams will automatically be populated. In the text box is a suggested
+                  format but You can write whatever you want! Here is one
+                  example...
+                  <br><br>
+                  Coming up, @G4STroy vs @CDMani at @TE_Championships in #mortalkombat. On @twitch.tv/cdjr02
+                  via @te_app #TE
+                </p>
+              </div>
+            </div>
+            <div class="flex-items image-item">
+              <label class="flex-label">Notification Message</label>
+              <textarea placeholder="Write our own message" rows="4" cols="150"
+                class="ng-pristine ng-untouched ng-valid ng-not-empty ng-valid-maxlength" formControlName="notificationMessage"></textarea>
+            </div>
+            <div class="flex-items">
+              <label class="flex-label" style=" color: #3988ba;">Location</label>
+              <input type="text" class="location" placeholder="Search Location..." formControlName="location" (change)="shwoLocations()" autocomplete="on">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="large-5">
+        <div class="col_three">
+          <div class="toggle-slide" *ngIf="showMe">
+            <div class="setting-item">
+              <h2>Settings</h2>
+            </div>
+            <div class="row" style="padding-left: 17px;">
+              <div class="large-6">
+
+                <div class="flex-row input-block ng-scope" ng-if="!tournament.started" data-step="15"
+                  data-intro="Have option for people to register for tournament.">
+                  <label class="flex-label" for="preRegister">Register</label>
+                  <div class="switch round tiny" ng-mouseenter="register=true" ng-mouseleave="register=false">
+                    <mat-slide-toggle formControlName="preRegiste"></mat-slide-toggle>
+                  </div>
+
+                </div>
+                <div class="flex-row input-block ng-scope" ng-if="!tournament.started" data-step="15"
+                  data-intro="Have option for people to register for tournament.">
+                  <label class="flex-label" for="preRegister">Consider Teams</label>
+                  <div class="switch round tiny" ng-mouseenter="register=true" ng-mouseleave="register=false">
+                    <mat-slide-toggle formControlName="considerTeam"></mat-slide-toggle>
+                  </div>
+
+                </div>
+                <div class="flex-row input-block ng-scope" ng-if="!tournament.started" data-step="15"
+                  data-intro="Have option for people to register for tournament.">
+                  <label class="flex-label" for="preRegister">Player Score Submission</label>
+                  <div class="switch round tiny" ng-mouseenter="register=true" ng-mouseleave="register=false">
+                    <mat-slide-toggle (change)="toogleTag1()" formControlName="allowUserScoreSubmission"></mat-slide-toggle>
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="large-6">
+                <div class="flex-row input-block ng-scope" ng-if="!tournament.started" data-step="15"
+                  data-intro="Have option for people to register for tournament.">
+                  <label class="flex-label" for="preRegister">Team Based Tournament</label>
+                  <div class="switch round tiny" ng-mouseenter="register=true" ng-mouseleave="register=false">
+                    <mat-slide-toggle formControlName="teamBased"></mat-slide-toggle>
+                  </div>
+
+                </div>
+                <div class="flex-row input-block ng-scope" ng-if="!tournament.started" data-step="15"
+                  data-intro="Have option for people to register for tournament.">
+                  <label class="flex-label" for="preRegister">Consider Location</label>
+                  <div class="switch round tiny" ng-mouseenter="register=true" ng-mouseleave="register=false">
+                    <mat-slide-toggle formControlName="considerLocation"></mat-slide-toggle>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="row" style="padding-top: 15px;">
+              <div class="large-6" style="padding-left: 17px;">
+                <label class="label-custom">Check In Time</label>
+                <div class="select-field">
+                  <select name="checkinTime" id="checkinTime"
+                    class="aot-type ng-pristine ng-untouched ng-valid ng-not-empty" formControlName="checkinTime">
+                    <option value="0" selected="selected" >Off</option>
+                    <option value="15">15 min</option>
+                    <option value="30">30 min</option>
+                    <option value="60">1 hour</option>
+                    <option value="120">2 hours</option>
+                    <option value="180">3 hours</option>
+                    <option value="360">6 hours</option>
+                    <option value="1440">1 day</option>
+                  </select> <span class="dropdown-arrow"></span>
+                </div>
+              </div>
+              <div class="large-6" style="padding-left: 17px;" *ngIf="showMe1">
+                <div>
+                  <div class="flex-column-space"></div>
+                  <label class="label-custom">Auto Advance Timer</label>
+                  <div class="select-field">
+                    <select class="aot-type ng-pristine ng-untouched ng-valid ng-not-empty" formControlName="autoAdvanceTime">
+                      <option value="0" selected="selected">None</option>
+                      <option value="5">5 min</option>
+                      <option value="10">10 min</option>
+                      <option value="15">15 min</option>
+                      <option value="30">30 min</option>
+                      <option value="60">1 hour</option>
+                    </select> <span class="dropdown-arrow"></span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <br><br>
+          </div>
+          <div class="example-button-row">
+            &nbsp;&nbsp;&nbsp;
+            <button id="cancel" class="btn btn-block red">
+              <span>
+                Cancel
+              </span>
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button id="save" class="btn btn-block ">
+              <span>
+                Create
+              </span>
+            </button>
+            &nbsp;&nbsp;&nbsp;
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
+</div>

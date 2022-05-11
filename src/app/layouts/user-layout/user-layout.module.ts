@@ -1,8 +1,12 @@
+
+import { HttpClientModule } from '@angular/common/http';
 import { TournamentCreateComponent} from 'src/app/users/tournament-create/tournament-create.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { NgxCopyPasteModule} from 'ngx-copypaste';
 
 import { RouterModule } from '@angular/router';
 import {MatMenuModule} from '@angular/material/menu';
@@ -32,6 +36,12 @@ import { EditEventComponent } from 'src/app/users/edit-event/edit-event.componen
 import { EditSeasonComponent } from 'src/app/users/edit-season/edit-season.component';
 import { EditTeamComponent } from 'src/app/users/edit-team/edit-team.component';
 import { DynamicScriptLoaderService } from 'src/app/common/services/dynamic-script-load-service';
+import { ManageTournamentsComponent } from 'src/app/users/manage-tournaments/manage-tournaments.component';
+import { ManagePlayersComponent } from 'src/app/users/manage-players/manage-players.component';
+import { ImageCropperModule} from 'ngx-image-cropper';
+import { ManagePlayersTeamComponent } from './../../users/manage-players-team/manage-players-team.component';
+// import { AngularFileUploaderModule } from "angular-file-uploader";
+
 
 // import { IconImportModule } from 'mat-icon-import';
 //import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
@@ -58,7 +68,18 @@ import { DynamicScriptLoaderService } from 'src/app/common/services/dynamic-scri
     MatDatepickerModule,
     SlideToggleModule,
     MatNativeDateModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    HttpClientModule,
+    ImageCropperModule,
+    
+   
+    NgxCopyPasteModule
+    // AngularFileUploaderModule,
+
+
+   
+
+    
     // MatTabsModule
   ],
   declarations: [
@@ -80,6 +101,10 @@ import { DynamicScriptLoaderService } from 'src/app/common/services/dynamic-scri
     EditEventComponent,
     EditSeasonComponent,
     EditTeamComponent,
+    ManageTournamentsComponent,
+    ManagePlayersComponent,
+    ManagePlayersTeamComponent
+    
   ],
   providers: [
     DynamicScriptLoaderService

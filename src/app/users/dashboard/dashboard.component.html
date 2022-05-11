@@ -1,10 +1,10 @@
 <img src="" style="display:none" id="imgforumlogin">
-<div class="row restrict_to_window" id="dashboard-container">
+<div class="row restrict_to_window" id="dashboard-container" style="height: 533px;">
     <!-- <div ng-include="'home/side_bar.html'" class="sidebar left"></div> -->
     <!-- Column 2 -->
     <div class="large-5 cdiv" id="step1" data-step="1"
         data-intro="Notification list of who recently followed you, tournaments participations, registrations, etc.">
-        <div class="notification_column restrict_to_window">
+        <div class="notification_column restrict_to_window" style="height: 550px;" >
             <div class="toptitle">
                 <div class="small-12 columns title">
                   <!-- <h1 data-step="1" data-intro="This is a tooltip!" data-position='right'>Basic Usage</h1> -->
@@ -15,7 +15,7 @@
                 </div>
 
             </div>
-            <div class="bar" scrolly="showMoreNotifications()">
+            <div class="bar" scrolly="showMoreNotifications()" style="overflow: scroll; height: 457px;" >
                 <div class="" id="notification_list">
 
                     <div class='notification'>
@@ -77,35 +77,35 @@
 
         <div class="info_column">
 
-            <tabset id="tstyle">
-                <tab heading="HYPED">
-                    <div class="bar is-active" id="panel1" scrolly="showMoreHypes()">
+            <tabset id="tstyle" >
+                <tab heading="HYPED" >
+                    <div class="bar is-active" id="panel1" scrolly="showMoreHypes()" style="overflow: scroll; height: 457px;">
                         <div class="hype_list">
                             <div class="hype_list_child">
                                 <a href="/">
-                                    <div class="hype_card sha-box card">
+                                    <div class="hype_card sha-box card" *ngFor="let item of hype">
                                         <div class="">
                                             <div class="img-event small-6"
-                                                style="background-image: url(assets/img/object1.png);">
-                                                <div class="name-event" title="hype name">hype name</div>
+                                                style="background-image: url({{item.imageKey}});">
+                                                <div class="name-event" title="hype name">{{item.name}}</div>
                                             </div>
                                             <div class="ribbon_parent2">
                                                 <div class="back_ribbon2 bgradient"></div>
                                                 <div class="ribbon_child2 bgsolidBlue"></div>
                                                 <div class="ribbon_content2">
-                                                    <p> hype Type</p>
+                                                    <p>{{item.hypeType}}</p>
                                                 </div>
                                             </div>
                                             <div class="txt-event column small-6">
                                                 <hr class="shr3">
                                                 <div class="tinfo">Start Date:</div>
-                                                <span class="tdata">hype startDate</span>
+                                                <span class="tdata">{{item.startDate}}</span>
                                                 <div class="clear"></div>
                                                 <div class="tinfo">Participants:</div>
-                                                <span class="tdata">hype hits</span>
+                                                <span class="tdata">{{item.hits}}</span>
                                                 <div class="clear"></div>
                                                 <div class="tinfo">Location:</div>
-                                                <span class="tdata">hype venue</span>
+                                                <span class="tdata">{{item.venue}}</span>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
@@ -115,24 +115,25 @@
                                 </a>
                             </div>
                             <div id="loaders_hype">
-                                <div id="loader_image_hype" align="center"><img src="assets/img/ajax-loader.gif"
-                                        alt="Loading next records" title="Loading next records" width="25"
-                                        height="25">Loading new hypes, please wait...</div>
+                                <div id="loader_image_hype" align="center">
+                                    <img src="assets/img/ajax-loader.gif"
+                                        alt="Loading next records" title="Loading next records" 
+                                       >Loading new hypes, please wait...</div>
                                 <div id="loader_message_hype" align="right"></div>
                             </div>
                         </div>
                     </div>
                 </tab>
                 <tab heading="UPCOMING">
-                    <div class="bar" id="panel2" scrolly="showMoreUpcomings()">
-                        <div class="upcoming_list">
+                    <div class="bar" id="panel2" scrolly="showMoreUpcomings()" >
+                        <div class="upcoming_list" >
                             <div class="upcoming_list_child">
                                 <a href='/tournament/id/'>
-                                    <div class="event_card sha-box card">
+                                    <div class="event_card sha-box card" *ngFor="let item of upcoming">
                                         <div class="">
-                                            <div class="img-event small-6"
-                                                style="background-image: url(assets/img/object1.png);">
-                                                <div class="name-event truncate" title="tournament name">tournament name
+                                            <div class="img-event small-6">
+                                                <img src="{{item.imageKey}}">
+                                                <div class="name-event truncate" title="tournament name">{{item.name}}
                                                 </div>
                                                 <div></div>
                                             </div>
@@ -140,22 +141,23 @@
                                                 <div class="back_ribbon2 bgradient"></div>
                                                 <div class="ribbon_child2 bgsolidBlue"></div>
                                                 <div class="ribbon_content2">
-                                                    <p>Tournament Type</p>
+                                                    <p>{{item.tournamentTypeName}}</p>
                                                 </div>
                                             </div>
-                                            <div class="txt-event small-6" *ngFor="let item of tournamentList"> 
-                                                <span class="tgamename">Tournament Name</span>
+                                            <div class="txt-event small-6"> 
+                                                <span class="tgamename">{{item.game}}</span>
                                                 <hr class="shr3">
                                                 <div class="tinfo">Start Date:</div>
-                                                <span class="tdata btxt">{{item.startdate}}</span>
+                                                <span class="tdata btxt">{{item.startDate}}</span>
                                                 <div class="clear"></div>
-                                                <div class="tinfo tinfo-location">Location:</div>
+                                                <div class="tinfo tinfo-location" style="color: #fff;">Location:</div>
                                                 <span class="tdata btxt" title="">{{item.venue}}</span>
                                                 <div class="clear"></div>
                                                 <div class="clear"></div>
                                                 <div class="tinfo">Open:</div>
                                                 <span class="tdata">
-                                                    <div class="blue-slider-sm"></div>
+                                                    <material-slide-toggle routerLink="/tournaments"></material-slide-toggle>
+                                                    <div class="blue-slider-sm" ></div>
                                                     <div class="red-slider-sm"></div>
                                                 </span>
                                             </div>

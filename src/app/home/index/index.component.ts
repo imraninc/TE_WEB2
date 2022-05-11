@@ -36,22 +36,24 @@ export class IndexComponent implements OnInit {
   _errorTxt: string;
   _re_errorTxt: string;
   closeModal: string;
+  public tournamentList:any=[];
+  public hype:any=[];
 
   forgetForm:any;
 
 
 
-  tournamentList: any = [
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'WC 2020' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'Tournament' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'test' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2022' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
-    { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' }
-  ]
+  // tournamentList: any = [
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'WC 2020' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'Tournament' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'test' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2022' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' },
+  //   { src: 'https://tournamentedition.com/assets/images/object1.png', title: 'IPL 2020' }
+  // ]
 
 
   // Trusted By
@@ -103,11 +105,9 @@ export class IndexComponent implements OnInit {
 
 
   ngOnInit(){
+    this.getTournamentdetails();
       $(document).foundation();
-      this._service.getTournament().subscribe(res =>{
-        this.tournamentList=res;
-        console.log(this.tournamentList);
-      });
+      
      this.signinForm = this.frmbuilder.group({
       'UserName':new FormControl ('', [Validators.required]),
       // 'RememberMe': [false, [Validators.required]],
@@ -196,6 +196,20 @@ export class IndexComponent implements OnInit {
         })
 
       }
+      getTournamentdetails(){
+        this._service.getTournament().subscribe(res =>{
+          // let tournamentList=Object.values(res);
+          
+           
+           
+         var tournamentList=Object.values(res);
+         this.hype=JSON.parse(JSON.stringify(tournamentList))[2];
+          // console.log(JSON.parse(res.toString())?.hypes);
+          console.log(this.hype);
+           
+          });
+              
+            }
 
 
 
@@ -300,7 +314,7 @@ export class IndexComponent implements OnInit {
 
 
     resendVerification() {
-      debugger
+      
       if (this.forgetForm.value.email != "" || this.forgetForm.value.email != undefined) {
         this.service.resendverification(this.forgetForm.value.email).subscribe(data => {
           this._re_errorTxt = "Account is already Active";
@@ -314,7 +328,7 @@ export class IndexComponent implements OnInit {
         },
           err => {
             console.log(err);
-            debugger
+            
             if (err.status) {
               if (typeof (err.error) != 'undefined' && typeof (err.error.errorMessages) != 'undefined' && err.error.errorMessages.length > 0) {
                 this._re_errorTxt = '';
